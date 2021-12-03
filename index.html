@@ -1,0 +1,218 @@
+<html>
+    <head>
+
+        <script src="canvas-snow.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas&family=Poppins:wght@100&display=swap" rel="stylesheet">
+        <title>Bells</title>
+
+
+
+        <style>
+
+            #snow {
+                position: absolute;
+                inset: 0;
+            }
+
+            body {
+                background: rgb(9,76,114);
+                background: -webkit-radial-gradient(bottom, ellipse cover,  rgb(9,76,114) 0%,rgb(1,41,63) 100%);
+                background: -webkit-radial-gradient(ellipse at bottom, rgb(9,76,114) 0%, rgb(1,41,63) 100%);
+                background: -webkit-radial-gradient(bottom, ellipse, rgb(9,76,114) 0%, rgb(1,41,63) 100%);
+                background: radial-gradient(ellipse at bottom,  rgb(9,76,114) 0%,rgb(1,41,63) 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#094c72', endColorstr='#01293f',GradientType=1 );
+            }
+
+            .outer-container {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+
+            @keyframes bellshake {
+                0% { transform: rotate(0); }
+                15% { transform: rotate(5deg); }
+                30% { transform: rotate(-5deg); }
+                45% { transform: rotate(4deg); }
+                60% { transform: rotate(-4deg); }
+                75% { transform: rotate(2deg); }
+                85% { transform: rotate(-2deg); }
+                92% { transform: rotate(1deg); }
+                100% { transform: rotate(0); }
+            }
+
+
+            .note-container {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-evenly;
+                user-select: none;
+            }
+
+            img {
+                /*height: 10vh;*/
+                width: 5%;
+                cursor: pointer;
+                padding: 72px 0;
+            }
+
+            img:hover {
+                transform: scale(1.1);
+            }
+
+            .note-container button {
+                flex: 1 1 24px;
+                margin-right: 1rem;
+                border: none;
+                background-color: initial;
+                background-image: url( 'bell-svg.svg' );
+            }
+
+            .next-note {
+                filter: brightness(350%) contrast(111%);
+            }
+
+            .black-note {
+                align-self: flex-start;
+            }
+
+            .song-container {
+                display: flex;
+                justify-content: space-evenly;
+                width: 100%;
+            }
+
+            .song-button {
+                background: none;
+                border: none;
+                color: white;
+                cursor: pointer;
+                font-family: 'Mountains of Christmas', cursive;
+                font-size: xx-large;
+            }
+
+            .song-button.active {
+                text-decoration: underline;
+                transform: scale(1.1);
+            }
+
+            .song-button:hover {
+                color: #B3001B;
+                transform: rotate(1deg) scale(1.2)
+
+            }
+
+            .playing {
+                animation: bellshake .5s cubic-bezier(.36,.07,.19,.97) both;
+            }
+
+             .outer-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                z-index: 15;
+            }
+
+            .outer-container {
+                z-index: 10;
+            }
+
+            #modal {
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(50, 50, 50, 0.8);
+                z-index: 10;
+            }
+
+            #modal .message {
+                width: 30%;
+                height: 30%;
+                background-color: white;
+                z-index: 5;
+                background-color: rgb(9,76,114);
+                color: white;
+                border-radius: 8px;
+                padding: 12px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-evenly;
+                font-family: 'Poppins', sans-serif;
+                font-size: x-large;
+                text-align: center;
+
+            }
+
+            #modal button {
+                padding: 12px;
+                font-size: xx-large;
+                font-family: 'Poppins', sans-serif;
+                border-radius: 8px;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <div class="outer-container">
+
+            <div class="note-container">
+
+                <img src="bell-svg.svg" class="note-button" id="C4" data-note="C4">
+                <img src="bell-svg.svg" class="note-button black-note" id="C#4" data-note="C#4">
+
+                <img src="bell-svg.svg" class="note-button" id="D4" data-note="D4">
+                <img src="bell-svg.svg" class="note-button black-note" id="D#4" data-note="D#4">
+
+                <img src="bell-svg.svg" class="note-button" id="E4" data-note="E4">
+
+                <img src="bell-svg.svg" class="note-button" id="F4" data-note="F4">
+                <img src="bell-svg.svg" class="note-button black-note" id="F#4" data-note="F#4">
+
+                <img src="bell-svg.svg" class="note-button" id="G4" data-note="G4">
+                <img src="bell-svg.svg" class="note-button black-note" id="G#4" data-note="G#4">
+
+                <img src="bell-svg.svg" class="note-button" id="A4" data-note="A4">
+                <img src="bell-svg.svg" class="note-button black-note" id="A#4" data-note="A#4">
+
+                <img src="bell-svg.svg" class="note-button" id="B4" data-note="B4">
+                <img src="bell-svg.svg" class="note-button" id="C5" data-note="C5">
+                <img src="bell-svg.svg" class="note-button" id="C#5" data-note="C#5">
+                <img src="bell-svg.svg" class="note-button" id="D5" data-note="D5">
+
+            </div>
+
+            <div class="song-container">
+                <button class="song-button" data-song-index="0">Freue Dich Welt</button>
+                <button class="song-button" data-song-index="1">O Tannenbaum</button>
+                <button class="song-button" data-song-index="2">Jingle Bells</button>
+                <button class="song-button" data-song-index="3">God Rest Ye Merry Gentlemen</button>
+            </div>
+        </div>
+
+        <div id="modal">
+            <div class="message">
+                <p>Click the bells or use the keyboard (A-L) to play notes</p>
+                <button id="modal-close">let's go</button>
+            </div>
+        </div>
+
+        <script src="bundle.js"></script>
+    </body>
+
+
+
+
+
+</html>
